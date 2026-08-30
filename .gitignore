@@ -160,3 +160,6 @@ htmlcov/
 
 # Local certificates
 netfree-certifi.pem
+
+# Worker raw data
+workers/ai-worker/data/
