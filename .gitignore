@@ -151,8 +151,12 @@ __pycache__/
 
 # Environment variables
 .env
+.env.*
 
 # Test / coverage
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Local certificates
+netfree-certifi.pem
