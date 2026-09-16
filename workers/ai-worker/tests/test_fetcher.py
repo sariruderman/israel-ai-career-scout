@@ -26,9 +26,7 @@ def test_fetch_url_uses_expected_request_settings(mock_get):
     mock_get.assert_called_once_with(
         "https://example.com",
         timeout=20,
-        headers={
-            "User-Agent": "israel-ai-career-scout/0.1"
-        },
+        headers={"User-Agent": "israel-ai-career-scout/0.1"},
     )
 
 
@@ -47,9 +45,7 @@ def test_fetch_url_raises_http_error(mock_get):
     mock_response = mock_get.return_value
     mock_response.status_code = 404
 
-    mock_response.raise_for_status.side_effect = requests.HTTPError(
-        "404 Client Error"
-    )
+    mock_response.raise_for_status.side_effect = requests.HTTPError("404 Client Error")
 
     with pytest.raises(requests.HTTPError):
         fetch_url("https://example.com")
