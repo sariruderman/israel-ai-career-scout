@@ -1,7 +1,9 @@
 from bs4 import BeautifulSoup
 
+from app.acquisition.models import ParsedDocument, ParsedLink
 
-def parse_html(html: str) -> dict:
+
+def parse_html(html: str) -> ParsedDocument:
     soup = BeautifulSoup(html, "html.parser")
 
     title = soup.title.get_text(strip=True) if soup.title else ""
@@ -12,15 +14,15 @@ def parse_html(html: str) -> dict:
     text = soup.get_text(" ", strip=True)
 
     links = [
-        {
-            "text": link.get_text(" ", strip=True),
-            "href": link.get("href"),
-        }
+        ParsedLink(
+            text=link.get_text(" ", strip=True),
+            href=link.get("href"),
+        )
         for link in soup.find_all("a", href=True)
     ]
 
-    return {
-        "title": title,
-        "text": text,
-        "links": links,
-    }
+    return ParsedDocument(
+        title=title,
+        text=text,
+        links=links,
+    )

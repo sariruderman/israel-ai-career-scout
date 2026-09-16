@@ -1,3 +1,4 @@
+from app.acquisition.models import ParsedDocument, ParsedLink
 from app.acquisition.parser import parse_html
 
 
@@ -21,15 +22,15 @@ def test_parse_html_extracts_title_text_and_links():
 
     result = parse_html(html)
 
-    assert result["title"] == "Python Developer"
-    assert "Backend development position." in result["text"]
-    assert "should not appear" not in result["text"]
-
-    assert result["links"] == [
-        {
-            "text": "View job",
-            "href": "https://example.com/jobs/123",
-        }
+    assert isinstance(result, ParsedDocument)
+    assert result.title == "Python Developer"
+    assert "Backend development position." in result.text
+    assert "should not appear" not in result.text
+    assert result.links == [
+        ParsedLink(
+            text="View job",
+            href="https://example.com/jobs/123",
+        )
     ]
 
 
@@ -44,9 +45,10 @@ def test_parse_html_handles_missing_title():
 
     result = parse_html(html)
 
-    assert result["title"] == ""
-    assert "Some content" in result["text"]
-    assert result["links"] == []
+    assert isinstance(result, ParsedDocument)
+    assert result.title == ""
+    assert "Some content" in result.text
+    assert result.links == []
 
 
 def test_parse_html_ignores_links_without_href():
@@ -61,9 +63,9 @@ def test_parse_html_ignores_links_without_href():
 
     result = parse_html(html)
 
-    assert result["links"] == [
-        {
-            "text": "Job 1",
-            "href": "/jobs/1",
-        }
+    assert result.links == [
+        ParsedLink(
+            text="Job 1",
+            href="/jobs/1",
+        )
     ]
