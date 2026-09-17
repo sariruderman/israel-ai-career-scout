@@ -26,6 +26,9 @@ def test_enrich_adds_metadata_to_normalized_job():
         title="Python Developer",
         description="Backend development position.",
         url="https://example.com/jobs/123",
+        company="Example Ltd",
+        location="Tel Aviv",
+        source="example.com",
     )
 
     result = enrich(

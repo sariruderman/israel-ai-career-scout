@@ -31,12 +31,18 @@ def test_jobs_with_same_canonical_url_are_duplicates():
         title="Python Developer",
         description="Backend development position.",
         url="https://example.com/jobs/123",
+        company="Example Ltd",
+        location="Tel Aviv",
+        source="example.com",
     )
 
     second_job = NormalizedJob(
         title="Python Developer",
         description="Backend development position.",
         url="https://example.com/jobs/123?utm_source=google",
+        company="Example Ltd",
+        location="Tel Aviv",
+        source="example.com",
     )
 
     assert is_duplicate(first_job, second_job) is True
@@ -47,12 +53,18 @@ def test_jobs_with_different_urls_are_not_duplicates():
         title="Python Developer",
         description="Backend development position.",
         url="https://example.com/jobs/123",
+        company="Example Ltd",
+        location="Tel Aviv",
+        source="example.com",
     )
 
     second_job = NormalizedJob(
         title="Python Developer",
         description="Backend development position.",
         url="https://example.com/jobs/456",
+        company="Example Ltd",
+        location="Tel Aviv",
+        source="example.com",
     )
 
     assert is_duplicate(first_job, second_job) is False
@@ -63,12 +75,18 @@ def test_jobs_with_different_meaningful_query_parameters_are_not_duplicates():
         title="Python Developer",
         description="Backend development position.",
         url="https://example.com/jobs/123?lang=en",
+        company="Example Ltd",
+        location="Tel Aviv",
+        source="example.com",
     )
 
     second_job = NormalizedJob(
         title="Python Developer",
         description="Backend development position.",
         url="https://example.com/jobs/123?lang=fr",
+        company="Example Ltd",
+        location="Tel Aviv",
+        source="example.com",
     )
 
     assert is_duplicate(first_job, second_job) is False
