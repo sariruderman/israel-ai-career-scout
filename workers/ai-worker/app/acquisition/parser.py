@@ -8,6 +8,15 @@ def parse_html(html: str) -> ParsedDocument:
 
     title = soup.title.get_text(strip=True) if soup.title else ""
 
+    metadata = {
+        meta.get("name"): meta.get("content", "").strip()
+        for meta in soup.find_all(
+            "meta",
+            attrs={"name": True, "content": True},
+        )
+        if meta.get("name") in {"company", "location"}
+    }
+
     for element in soup(["script", "style", "noscript"]):
         element.decompose()
 
@@ -25,4 +34,5 @@ def parse_html(html: str) -> ParsedDocument:
         title=title,
         text=text,
         links=links,
+        metadata=metadata,
     )

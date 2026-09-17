@@ -21,8 +21,10 @@ def test_parsed_document():
         title="Python Developer",
         text="Backend development position.",
         links=[link],
+        metadata={},
     )
 
     assert document.title == "Python Developer"
     assert document.text == "Backend development position."
     assert document.links == [link]
+    assert document.metadata == {}

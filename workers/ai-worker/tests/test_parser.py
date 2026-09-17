@@ -69,3 +69,24 @@ def test_parse_html_ignores_links_without_href():
             href="/jobs/1",
         )
     ]
+
+
+def test_parse_html_extracts_metadata():
+    html = """
+    <html>
+        <head>
+            <meta name="company" content="Example Ltd">
+            <meta name="location" content="Tel Aviv">
+        </head>
+        <body>
+            <h1>Python Developer</h1>
+        </body>
+    </html>
+    """
+
+    result = parse_html(html)
+
+    assert result.metadata == {
+        "company": "Example Ltd",
+        "location": "Tel Aviv",
+    }
