@@ -49,3 +49,11 @@ def test_fetch_url_raises_http_error(mock_get):
 
     with pytest.raises(requests.HTTPError):
         fetch_url("https://example.com")
+
+
+@patch("app.acquisition.fetcher.requests.get")
+def test_fetch_url_raises_timeout(mock_get):
+    mock_get.side_effect = requests.exceptions.Timeout
+
+    with pytest.raises(requests.exceptions.Timeout):
+        fetch_url("https://example.com")
