@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from app.acquisition.models import ParsedDocument, ParsedLink
 
 
-def parse_html(html: str) -> ParsedDocument:
+def parse_html(html: bytes) -> ParsedDocument:
     soup = BeautifulSoup(html, "html.parser")
 
     title = soup.title.get_text(strip=True) if soup.title else ""

@@ -20,7 +20,7 @@ def test_parse_html_extracts_title_text_and_links():
     </html>
     """
 
-    result = parse_html(html)
+    result = parse_html(html.encode("utf-8"))
 
     assert isinstance(result, ParsedDocument)
     assert result.title == "Python Developer"
@@ -43,7 +43,7 @@ def test_parse_html_handles_missing_title():
     </html>
     """
 
-    result = parse_html(html)
+    result = parse_html(html.encode("utf-8"))
 
     assert isinstance(result, ParsedDocument)
     assert result.title == ""
@@ -61,7 +61,7 @@ def test_parse_html_ignores_links_without_href():
     </html>
     """
 
-    result = parse_html(html)
+    result = parse_html(html.encode("utf-8"))
 
     assert result.links == [
         ParsedLink(
@@ -84,9 +84,23 @@ def test_parse_html_extracts_metadata():
     </html>
     """
 
-    result = parse_html(html)
+    result = parse_html(html.encode("utf-8"))
 
     assert result.metadata == {
         "company": "Example Ltd",
         "location": "Tel Aviv",
     }
+
+
+def test_parse_html_decodes_windows_1255_hebrew():
+    html = """
+    <html>
+        <head><meta charset="windows-1255"></head>
+        <body><h1>מפתח תוכנה</h1></body>
+    </html>
+    """
+
+    result = parse_html(html.encode("windows-1255"))
+
+    assert result.title == ""
+    assert "מפתח תוכנה" in result.text
