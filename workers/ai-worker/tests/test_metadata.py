@@ -1,3 +1,5 @@
+import pytest
+
 from app.acquisition.metadata import (
     extract_company,
     extract_location,
@@ -48,3 +50,14 @@ def test_extract_location_from_metadata():
     )
 
     assert extract_location(document) == "Tel Aviv"
+
+
+def test_extract_source_normalizes_hostname():
+    url = "https://WWW.Example.com:8443/jobs/123"
+
+    assert extract_source(url) == "example.com"
+
+
+def test_extract_source_rejects_url_without_hostname():
+    with pytest.raises(ValueError, match="URL must include a hostname"):
+        extract_source("not-a-url")

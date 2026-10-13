@@ -4,7 +4,11 @@ from app.acquisition.models import ParsedDocument
 
 
 def extract_source(url: str) -> str:
-    return urlparse(url).netloc.removeprefix("www.")
+    hostname = urlparse(url).hostname
+    if not hostname:
+        raise ValueError("URL must include a hostname")
+
+    return hostname.lower().removeprefix("www.")
 
 
 def extract_company(document: ParsedDocument) -> str:
